@@ -17,3 +17,4 @@ __pycache__
 !/media/.keep
 /log/*
 !/log/.keep
+db.sqlite3
