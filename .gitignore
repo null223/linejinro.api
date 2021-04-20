@@ -17,4 +17,6 @@ __pycache__
 !/media/.keep
 /log/*
 !/log/.keep
+staticfiles
+config/local_settings.py
 db.sqlite3
