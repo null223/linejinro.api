@@ -45,15 +45,16 @@ def SetWordWolf(event):
         tools.reply_token(event),
         [
             TextSendMessage(
-                text=str(member)+'人ですね。\n\n参加メンバーにこちらのURLを共有してください。\n'+app_link
+                text=str(member)+'人ですね。\n\n参加メンバーにこちらのURLを共有してください。'
             ),
+            TextSendMessage(text=app_link),
             TextSendMessage(text='続いて、お名前を教えてください。')
         ]
     )
 
 def GetName(event):
     name = tools.data_text(event)
-    member = RoomMember.objects.all().filter(line_id=tools.line_id(event))
+    member = RoomMember.objects.all().get(line_id=tools.line_id(event))
     member.name = name
     member.save()
 
