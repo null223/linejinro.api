@@ -8,6 +8,9 @@ gunicorn = "*"
 line-bot-sdk = "*"
 djangorestframework = "*"
 django-heroku = "*"
+django-dotenv = "*"
+django = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
