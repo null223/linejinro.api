@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from .room import Room
+import random
 
 ROLE_CHOICES = (
     ('wolf', '人狼'),
@@ -10,7 +11,10 @@ ROLE_CHOICES = (
 )
 
 class RoomMemberQuerySet(models.QuerySet):
-    pass
+    def random(self):
+        object_list = list(self)
+        random.shuffle(object_list)
+        return object_list[0]
 
 class RoomMemberManager(models.Manager):
     def get_queryset(self):
@@ -30,7 +34,7 @@ class RoomMember(models.Model):
     objects = RoomMemberManager()
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else str(self.room)+':'+str(self.id)
 
     class Meta:
         default_related_name = 'room_member_set'

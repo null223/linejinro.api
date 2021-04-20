@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+import uuid
 
 
 class RoomQuerySet(models.QuerySet):
@@ -22,6 +23,11 @@ class Room(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = str(uuid.uuid4())
+        super().save(*args, **kwargs)
 
     class Meta:
         default_related_name = 'room_set'

@@ -8,6 +8,7 @@ from linebot.models import TextSendMessage
 # from line.models import Room
 from . import tools, word_wolf
 from .tools.line_bot import line_bot_api
+from line.models import RoomMember
 
 
 class WebHookView(APIView):
@@ -29,7 +30,12 @@ class WebHookView(APIView):
 
                 # text message
                 if tools.message_type(event) == 'message':
-                    word_wolf.StartWordWolf(event)
+
+                    member = RoomMember.objects.all().filter(line_id=tools.line_id(event), room__active=True)
+                    if member.exists():
+                        word_wolf.GetName(event)
+                    else:
+                        word_wolf.StartWordWolf(event)
 
                 elif tools.message_type(event) == 'postback':
                     # word wolf
