@@ -3,3 +3,4 @@ gunicorn
 django-dotenv
 djangorestframework
 line-bot-sdk
+whitenoise
