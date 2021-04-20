@@ -12,6 +12,7 @@ django-dotenv = "*"
 django = "*"
 psycopg2-binary = "*"
 whitenoise = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

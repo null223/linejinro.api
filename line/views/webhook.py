@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from rest_framework.response import Response
@@ -28,7 +29,7 @@ class WebHookView(APIView):
 
                 # text message
                 if tools.message_type(event) == 'message':
-                    line_bot_api.reply_message(tools.reply_token(event), TextSendMessage(text='Hello World!'))
+                    line_bot_api.reply_message(tools.reply_token(event), TextSendMessage(text='Hello World!'+settings.LINE_ACCOUNT_ID))
 
                 elif tools.message_type(event) == 'postback':
                     # word wolf
