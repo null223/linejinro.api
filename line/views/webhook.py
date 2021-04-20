@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from linebot.models import TextSendMessage
 # from line.models import Room
-from . import tools
+from . import tools, word_wolf
 from .tools.line_bot import line_bot_api
 
 
@@ -29,12 +29,14 @@ class WebHookView(APIView):
 
                 # text message
                 if tools.message_type(event) == 'message':
-                    line_bot_api.reply_message(tools.reply_token(event), TextSendMessage(text='Hello World!'+settings.LINE_ACCOUNT_ID))
+                    word_wolf.StartWordWolf(event)
 
                 elif tools.message_type(event) == 'postback':
                     # word wolf
-                    if tools.action_type(event) == 'start__wordWolf':
-                        views.StartWordWolf(event)
+                    # if tools.action_type(event) == 'wordWolf__start':
+                    #     word_wolf.StartWordWolf(event)
+                    if tools.action_type(event).startswith('wordWolf__n-'):
+                        word_wolf.SetWordWolf(event)
 
 
 

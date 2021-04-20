@@ -22,7 +22,7 @@ class MemberAction(models.Model):
     objects = MemberActionManager()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     class Meta:
         default_related_name = 'member_action_set'

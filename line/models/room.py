@@ -21,7 +21,7 @@ class Room(models.Model):
     objects = RoomManager()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     class Meta:
         default_related_name = 'room_set'
