@@ -1,7 +1,8 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 import uuid
+from .wordwolf_item import WordWolfItem
+from .mixins import *
 
 
 class RoomQuerySet(models.QuerySet):
@@ -14,10 +15,11 @@ class RoomManager(models.Manager):
     def line(self):
         return self.get_queryset()
 
-class Room(models.Model):
+class Room(TimestampMixin):
     token = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
     result = models.BooleanField(default=False)
+    word = models.ForeignKey(WordWolfItem, null=True, on_delete=models.PROTECT)
 
     objects = RoomManager()
 
@@ -32,5 +34,5 @@ class Room(models.Model):
     class Meta:
         default_related_name = 'room_set'
         db_table = 'room'
-        verbose_name = verbose_name_plural = _('models.room')
+        verbose_name = verbose_name_plural = 'models.room'
         ordering = ['-id']

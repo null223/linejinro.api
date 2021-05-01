@@ -1,7 +1,7 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from .room import Room
+from .mixins import *
 
 class DaysQuerySet(models.QuerySet):
     pass
@@ -13,7 +13,7 @@ class DaysManager(models.Manager):
     def line(self):
         return self.get_queryset()
 
-class Days(models.Model):
+class Days(TimestampMixin):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     day = models.IntegerField(default=0)
     is_night = models.BooleanField(default=False)
@@ -28,5 +28,5 @@ class Days(models.Model):
     class Meta:
         default_related_name = 'days_set'
         db_table = 'days'
-        verbose_name = verbose_name_plural = _('models.days')
+        verbose_name = verbose_name_plural = 'models.days'
         ordering = ['-room', '-id']

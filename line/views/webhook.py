@@ -22,27 +22,47 @@ class WebHookView(APIView):
 
         if request_json != None:
             for event in request_json['events']:
-                
                 # ブロック時処理スルー
                 if tools.message_type(event) == 'unfollow': return Response(status=200)
                 # 接続確認用
                 if tools.reply_token(event) == '00000000000000000000000000000000': return Response(status=200)
 
-                # text message
-                if tools.message_type(event) == 'message':
+                member = RoomMember.objects.line().filter(line_id=tools.line_id(event))
 
-                    member = RoomMember.objects.all().filter(line_id=tools.line_id(event), room__active=True)
-                    if member.exists():
+                # status None
+                if not member.exists():
+                    if tools.message_type(event) == 'message':
+                        if tools.data_text(event).startswith('token_at'):
+                            word_wolf.JoinRoom(event)
+                        else:
+                            word_wolf.StartWordWolf(event)
+
+                    elif tools.message_type(event) == 'postback':
+                        if tools.action_type(event).startswith('wordWolf__n-'):
+                            word_wolf.SetWordWolf(event)
+                        else:
+                            tools.SomeError(event)
+
+                # status Init
+                elif member.first().status == 'init':
+                    if tools.message_type(event) == 'message':
                         word_wolf.GetName(event)
-                    else:
-                        word_wolf.StartWordWolf(event)
 
-                elif tools.message_type(event) == 'postback':
-                    # word wolf
-                    # if tools.action_type(event) == 'wordWolf__start':
-                    #     word_wolf.StartWordWolf(event)
-                    if tools.action_type(event).startswith('wordWolf__n-'):
-                        word_wolf.SetWordWolf(event)
+                    elif tools.message_type(event) == 'postback':
+                        tools.SomeError(event)
+
+                # status Playing
+                elif member.first().status == 'playing':
+                    if tools.message_type(event) == 'message':
+                        pass
+                    elif tools.message_type(event) == 'postback':
+
+                        if tools.action_type(event) == 'next_step':
+                            pass
+                        elif tools.action_type(event) == 'stop':
+                            pass
+                        elif tools.action_type(event) == 'vote':
+                            pass
 
 
 
