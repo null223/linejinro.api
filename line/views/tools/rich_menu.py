@@ -48,4 +48,4 @@ def get_rich_menu():
     except Exception:
         result = False
 
-    print_lines(richMenuId, 'richmenu-id result: '+str(result))
+    print(richMenuId, 'richmenu-id result: '+str(result))
