@@ -1,3 +1,4 @@
+from django.conf import settings
 from line.models import RichMenu as ModelRichMenu
 from linebot.models import RichMenu, RichMenuSize, RichMenuArea, RichMenuBounds, PostbackAction
 from .line_bot import line_bot_api
@@ -41,7 +42,7 @@ def get_rich_menu():
         # upload an image for rich menu
         path = settings.STATIC_ROOT + 'images/richmenu.jpeg'
         with open(path, 'rb') as f:
-            line_bot_api.set_rich_menu_image(richMenuId, "image/jpg", f)
+            line_bot_api.set_rich_menu_image(richMenuId, "image/jpeg", f)
 
         result = True
 
