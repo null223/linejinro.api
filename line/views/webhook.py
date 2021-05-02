@@ -44,7 +44,7 @@ class WebHookView(APIView):
                             tools.SomeError(event)
 
                 # status Init
-                elif member.latest('created_at').status == 'init':
+                elif member.latest().status == 'init':
                     if tools.message_type(event) == 'message':
                         word_wolf.GetName(event)
 
@@ -52,7 +52,7 @@ class WebHookView(APIView):
                         tools.SomeError(event)
 
                 # status Playing
-                elif member.first().status == 'playing':
+                elif member.latest().status == 'playing':
                     if tools.message_type(event) == 'message':
                         pass
 

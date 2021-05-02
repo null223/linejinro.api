@@ -127,6 +127,8 @@ def NextStep(event):
     if not member.exists():
         tools.SomeError(event)
 
+    member = member.first()
+
     is_wolf = member.role == 'wolf'
 
     # vote
@@ -160,6 +162,7 @@ def NextStep(event):
 def StopToMenu(event):
     member = RoomMember.objects.line().filter(line_id=tools.line_id(event))
     if member.exists():
+        member = member.first()
         member.status = 'ended'
         member.save()
         if not member.room.member_set.all().exclude(status='ended').exists():
@@ -178,6 +181,8 @@ def Vote(event):
     member = RoomMember.objects.line().get(line_id=tools.line_id(event))
     if not member.exists():
         tools.SomeError(event)
+
+    member = member.first()
 
     room = member.room
 
