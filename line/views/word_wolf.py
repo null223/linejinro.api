@@ -123,7 +123,7 @@ def VoteResult(event, room):
         )
 
 def NextStep(event):
-    member = RoomMember.objects.line().get(line_id=tools.line_id(event))
+    member = RoomMember.objects.line().filter(line_id=tools.line_id(event))
     if not member.exists():
         tools.SomeError(event)
 
@@ -178,7 +178,7 @@ def StopToMenu(event):
 
 
 def Vote(event):
-    member = RoomMember.objects.line().get(line_id=tools.line_id(event))
+    member = RoomMember.objects.line().filter(line_id=tools.line_id(event))
     if not member.exists():
         tools.SomeError(event)
 
@@ -214,9 +214,11 @@ def Vote(event):
         )
 
 def VoteSelect(event):
-    member = RoomMember.objects.line().get(line_id=tools.line_id(event))
+    member = RoomMember.objects.line().filter(line_id=tools.line_id(event))
     if not member.exists():
         tools.SomeError(event)
+
+    member = member.first()
 
     select_member_id = int(tools.action_type(event).split('-')[-1])
     select_member = member.room.room_member_set.line().get(id=select_member_id)
