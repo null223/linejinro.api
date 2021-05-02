@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from .mixins import *
+import random
 
 
 class WordWolfItemQuerySet(models.QuerySet):
