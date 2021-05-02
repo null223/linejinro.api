@@ -56,7 +56,7 @@ def SetWordWolf(event):
     )
 
 def JoinRoom(event):
-    member = Room.objects.all().get(token=tools.data_text(event).split('token_at')[-1]).room_member_set.all().random()
+    member = Room.objects.all().get(token=tools.data_text(event).split('token_at')[-1]).room_member_set.all().filter(line_id__isnull=True).random()
     member.line_id = tools.line_id(event)
     member.save()
 
