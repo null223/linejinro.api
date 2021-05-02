@@ -48,4 +48,4 @@ class RoomMember(TimestampMixin):
         db_table = 'room_member'
         verbose_name = verbose_name_plural = 'models.room_member'
         ordering = ['-room', '-id']
-        get_latest_by = 'created_at'
+        get_latest_by = 'updated_at'

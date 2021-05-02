@@ -83,7 +83,7 @@ def GetName(event):
 
 def VoteResult(event, room):
     selects = []
-    for mem in room.member_set.line():
+    for mem in room.room_member_set.line():
         action = mem.member_action_set.latest()
         selects.append(action.select)
 
@@ -94,7 +94,7 @@ def VoteResult(event, room):
         if sel[1] == most_count:
             most_list.append(sel[0])
 
-    wolf_member = room.member_set.line().filter(role='wolf').first()
+    wolf_member = room.room_member_set.line().filter(role='wolf').first()
 
     if len(most_list) == 1:
         find_success = '見事少数派を見つけられました。\nこのまま行くと多数派の勝利となりますが、少数派の方は多数派のお題はなんだったでしょうか？\n当てられたら大逆転勝利です！\n（ゲームの進行はここまでになります。お疲れ様でした！）'
@@ -137,8 +137,8 @@ def NextStep(event):
 
     room = member.room
 
-    noname_member = room.member_set.line().filter(name__isnull=True)
-    notvoted_member = room.member_set.line().filter(member_action_set__isnull=True)
+    noname_member = room.room_member_set.line().filter(name__isnull=True)
+    notvoted_member = room.room_member_set.line().filter(member_action_set__isnull=True)
 
     if noname_member.exists() or (action and notvoted_member.exists()):
         line_bot_api.reply_message(
@@ -165,7 +165,7 @@ def StopToMenu(event):
         member = member.first()
         member.status = 'ended'
         member.save()
-        if not member.room.member_set.all().exclude(status='ended').exists():
+        if not member.room.room_member_set.all().exclude(status='ended').exists():
             member.room.active = False
             member.room.save()
 
@@ -186,7 +186,7 @@ def Vote(event):
 
     room = member.room
 
-    noname_member = room.member_set.line().filter(name__isnull=True)
+    noname_member = room.room_member_set.line().filter(name__isnull=True)
 
     if noname_member.exists():
         line_bot_api.reply_message(
@@ -195,7 +195,7 @@ def Vote(event):
         )
     else:
         quick_list = []
-        for mem in room.member_set.line():
+        for mem in room.room_member_set.line():
             quick_list.append(
                 QuickReplyButton(
                     action=PostbackAction(
@@ -219,7 +219,7 @@ def VoteSelect(event):
         tools.SomeError(event)
 
     select_member_id = int(tools.action_type(event).split('-')[-1])
-    select_member = member.room.member_set.line().get(id=select_member_id)
+    select_member = member.room.room_member_set.line().get(id=select_member_id)
     MemberAction.objects.create(member=member, select=select_member)
 
     line_bot_api.reply_message(
