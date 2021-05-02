@@ -88,7 +88,7 @@ def VoteResult(event, room):
         selects.append(action.select)
 
     selected_list = collections.Counter(selects).most_common()
-    most_count = selected_list[0][0]
+    most_count = selected_list[0][1]
     most_list = []
     for sel in selected_list:
         if sel[1] == most_count:
