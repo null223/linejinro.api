@@ -26,3 +26,4 @@ class RichMenu(TimestampMixin):
         db_table = 'rich_menu'
         verbose_name = verbose_name_plural = 'models.rich_menu'
         ordering = ['-id']
+        get_latest_by = 'created_at'

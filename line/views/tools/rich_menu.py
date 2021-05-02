@@ -5,7 +5,7 @@ from .line_bot import line_bot_api
 from .json import line_id
 
 def set_rich_menu(event):
-    line_bot_api.link_rich_menu_to_user(line_id(event), ModelRichMenu.objects.all().first().menu_id)
+    line_bot_api.link_rich_menu_to_user(line_id(event), ModelRichMenu.objects.all().latest().menu_id)
 
 def remove_rich_menu(event):
     line_bot_api.unlink_rich_menu_from_user(line_id(event))

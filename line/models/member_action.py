@@ -16,7 +16,7 @@ class MemberActionManager(models.Manager):
 
 class MemberAction(TimestampMixin):
     member = models.ForeignKey(RoomMember, related_name='member', on_delete=models.CASCADE)
-    days = models.ForeignKey(Days, on_delete=models.CASCADE)
+    days = models.ForeignKey(Days, null=True, on_delete=models.CASCADE)
     select = models.ForeignKey(RoomMember, related_name='select_member', on_delete=models.CASCADE)
 
     objects = MemberActionManager()
@@ -29,3 +29,4 @@ class MemberAction(TimestampMixin):
         db_table = 'member_action'
         verbose_name = verbose_name_plural = 'models.member_action'
         ordering = ['-member', '-id']
+        get_latest_by = 'created_at'

@@ -36,3 +36,4 @@ class Room(TimestampMixin):
         db_table = 'room'
         verbose_name = verbose_name_plural = 'models.room'
         ordering = ['-id']
+        get_latest_by = 'created_at'
