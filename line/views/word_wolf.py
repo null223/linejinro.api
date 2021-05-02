@@ -84,7 +84,7 @@ def GetName(event):
 def VoteResult(event, room):
     selects = []
     for mem in room.room_member_set.line():
-        action = mem.member_action_set.latest()
+        action = mem.member.latest()
         selects.append(action.select)
 
     selected_list = collections.Counter(selects).most_common()
@@ -140,7 +140,7 @@ def NextStep(event):
     noname_member = room.room_member_set.line().filter(name__isnull=True)
     # notvoted_member = room.room_member_set.line().filter(member_action_set__isnull=True)
     notvoted_member_list = []
-    for mem in room.member_set.line():
+    for mem in room.room_member_set.line():
         mem_action = MemberAction.objects.filter(member=mem)
         if not mem_action.exists():
             notvoted_member_list.append(mem)
