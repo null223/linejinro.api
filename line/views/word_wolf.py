@@ -108,6 +108,17 @@ def VoteResult(event, room):
                 TextSendMessage(text=text)
             ]
         )
+        member = RoomMember.objects.line().get(line_id=tools.line_id(event))
+        member.is_dead = True
+        member.save()
+
+        if not member.room.room_member_set.all().exclude(is_dead=True).exists():
+            for mem in room.room_member_set.line():
+                mem.status = "ended"
+                mem.save()
+
+            member.room.active = False
+            member.room.save()
         tools.remove_rich_menu(event)
     else:
         most_member_text = ''
