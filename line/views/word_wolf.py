@@ -138,9 +138,14 @@ def NextStep(event):
     room = member.room
 
     noname_member = room.room_member_set.line().filter(name__isnull=True)
-    notvoted_member = room.room_member_set.line().filter(member_action_set__isnull=True)
+    # notvoted_member = room.room_member_set.line().filter(member_action_set__isnull=True)
+    notvoted_member_list = []
+    for mem in room.member_set.line():
+        mem_action = MemberAction.objects.filter(member=mem)
+        if not mem_action.exists():
+            notvoted_member_list.append(mem)
 
-    if noname_member.exists() or (action and notvoted_member.exists()):
+    if noname_member.exists() or (action and notvoted_member_list):
         line_bot_api.reply_message(
             tools.reply_token(event),
             TextSendMessage(text='ほかのプレイヤーの選択をお待ちください。')
