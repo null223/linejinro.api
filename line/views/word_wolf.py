@@ -17,7 +17,7 @@ def StartWordWolf(event):
         TextSendMessage(
             text='プレイ人数を教えてください。',
             quick_reply=QuickReply(items=[
-                QuickReplyButton(action=PostbackAction(label='2人(開発用)', data='wordWolf__n-2')),
+                # QuickReplyButton(action=PostbackAction(label='2人(開発用)', data='wordWolf__n-2')),
 
                 QuickReplyButton(action=PostbackAction(label='4人', data='wordWolf__n-4')),
                 QuickReplyButton(action=PostbackAction(label='5人', data='wordWolf__n-5')),
